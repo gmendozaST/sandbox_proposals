@@ -4,7 +4,7 @@ This folder contains project governance and quality standards documents.
 
 ## Contents
 
-- **definition_of_done.md** - Acceptance criteria and completion standards for model development, code review, and documentation
+-
 
 ## Purpose
 
