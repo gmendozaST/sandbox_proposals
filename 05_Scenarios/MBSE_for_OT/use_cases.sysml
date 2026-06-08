@@ -1,83 +1,97 @@
-// SysML v2 textual sketch of use cases for MBSE_for_OT
-package OTModelling_Standards.Scenarios.MBSE_for_OT {
+package MBSE_for_OT {
 
-  // Lightweight UseCase type
-  part def UseCase {
-    attribute id : String;
-    attribute title : String;
-    attribute description : String[0..1];
-    attribute references : String[0..*];
-  }
+    ////////////////////////////////////////////////
+    // IMPORTS
+    ////////////////////////////////////////////////
 
-  // UC1 with nested sub-use-cases
-  part UC1 : UseCase {
-    id = "UC1";
-    title = "Alignment with Engineering Management Manual (MN-A-05000 v2.0)";
-    references = "MN-A-05000 v2.0";
+    import MBSE_for_OT::Needs::*;
+    import MBSE_for_OT::BRS::*;
 
-    part UC1_1 : UseCase {
-      id = "UC1_1";
-      title = "Project Impact Assessment";
-    }
+    ////////////////////////////////////////////////
+    // USE CASES
+    ////////////////////////////////////////////////
 
-    part UC1_2 : UseCase {
-      id = "UC1_2";
-      title = "System Integration";
-    }
+    package UseCases {
 
-    part UC1_3 : UseCase {
-      id = "UC1_3";
-      title = "Requirements Management";
+        //////////////////////////////////////////////////
+        // UC1 — Submit Change Request
+        //////////////////////////////////////////////////
 
-      part UC1_3_1 : UseCase {
-        id = "UC1_3_1";
-        title = "Requirements Schema (t-mu-am-06004-st v3.0)";
-        references = "t-mu-am-06004-st v3.0";
-      }
-
-      part UC1_3_3 : UseCase {
-        id = "UC1_3_3";
-        title = "Testing Standard (t-mu-te-81003-st v2.0)";
-        references = "t-mu-te-81003-st v2.0";
-
-        part UC1_3_3_1 : UseCase {
-          id = "UC1_3_3_1";
-          title = "Configuration Management";
+        use case UC1_Submit_Change_Request {
+            description =
+                "Allows an OT Project Manager to submit a change request using the model as the single source of truth.";
         }
 
-        part UC1_3_3_2 : UseCase {
-          id = "UC1_3_3_2";
-          title = "Incident Management";
+        //////////////////////////////////////////////////
+        // UC2 — Review Change Impact
+        //////////////////////////////////////////////////
+
+        use case UC2_Review_Change_Impact {
+            description =
+                "Allows stakeholders to review the impact of proposed changes using traceable model relationships.";
         }
-      }
+
+        //////////////////////////////////////////////////
+        // UC3 — Generate CCB Submission Artefacts
+        //////////////////////////////////////////////////
+
+        use case UC3_Generate_CCB_Submission_Artefacts {
+            description =
+                "Allows users to generate CCB submission artefacts directly from the model.";
+        }
+
+        ////////////////////////////////////////////////
+        // TRACEABILITY TO BRS
+        ////////////////////////////////////////////////
+
+        connection UC1_refines_T001 : Refine {
+            lower = UC1_Submit_Change_Request;
+            higher = MBSE_BRS_T001;
+        }
+
+        connection UC2_refines_T001 : Refine {
+            lower = UC2_Review_Change_Impact;
+            higher = MBSE_BRS_T001;
+        }
+
+        connection UC3_refines_T001 : Refine {
+            lower = UC3_Generate_CCB_Submission_Artefacts;
+            higher = MBSE_BRS_T001;
+        }
+
+        ////////////////////////////////////////////////
+        // TRACEABILITY TO NEEDS (direct link)
+        ////////////////////////////////////////////////
+
+        connection UC1_supports_NE1 : Trace {
+            source = UC1_Submit_Change_Request;
+            target = MBSE_OT_NE1;
+        }
+
+        connection UC1_supports_NE2 : Trace {
+            source = UC1_Submit_Change_Request;
+            target = MBSE_OT_NE2;
+        }
+
+        connection UC2_supports_NE1 : Trace {
+            source = UC2_Review_Change_Impact;
+            target = MBSE_OT_NE1;
+        }
+
+        connection UC2_supports_NE2 : Trace {
+            source = UC2_Review_Change_Impact;
+            target = MBSE_OT_NE2;
+        }
+
+        connection UC3_supports_NE1 : Trace {
+            source = UC3_Generate_CCB_Submission_Artefacts;
+            target = MBSE_OT_NE1;
+        }
+
+        connection UC3_supports_NE2 : Trace {
+            source = UC3_Generate_CCB_Submission_Artefacts;
+            target = MBSE_OT_NE2;
+        }
 
     }
-
-    part UC1_4 : UseCase {
-      id = "UC1_4";
-      title = "RAM";
-    }
-  }
-
-  // Other top-level use cases
-  part UC2 : UseCase {
-    id = "UC2";
-    title = "Engineering Review Board";
-  }
-
-  part UC3 : UseCase {
-    id = "UC3";
-    title = "Periodic status report";
-  }
-
-  part UC4 : UseCase {
-    id = "UC4";
-    title = "OSAF";
-  }
-
-  part UC5 : UseCase {
-    id = "UC5";
-    title = "OSARB";
-  }
-
-} // package OTModelling_Standards.Scenarios.MBSE_for_OT
+}
